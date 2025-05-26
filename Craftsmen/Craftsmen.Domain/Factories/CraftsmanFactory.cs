@@ -1,6 +1,6 @@
-﻿using Craftsmen.Domain.Models;
+﻿namespace Craftsmen.Domain.Factories;
 
-namespace Craftsmen.Domain.Factories;
+using Models;
 
 public class CraftsmanFactory : ICraftsmanFactory
 {

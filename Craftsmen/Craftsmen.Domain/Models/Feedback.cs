@@ -1,6 +1,8 @@
-﻿using Common.Domain.Models;
+﻿namespace Craftsmen.Domain.Models;
 
-namespace Craftsmen.Domain.Models;
+using Common.Domain;
+using Common.Domain.Models;
+using Exceptions;
 
 public class Feedback : Entity<int>
 {
@@ -21,6 +23,8 @@ public class Feedback : Entity<int>
 
     private void Validate(string content, int rating, string writerId)
     {
-        throw new NotImplementedException();
+        Guard.AgainstEmptyString<InvalidFeedbackException>(content, nameof(this.Content));
+        Guard.AgainstOutOfRange<InvalidFeedbackException>(rating, 1, 10, nameof(this.Rating));
+        Guard.AgainstEmptyString<InvalidFeedbackException>(writerId, nameof(this.WriterId));
     }
 }

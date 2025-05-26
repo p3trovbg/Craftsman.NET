@@ -1,4 +1,6 @@
-﻿using Common.Domain.Models;
+﻿using Common.Domain;
+using Common.Domain.Models;
+using Craftsmen.Domain.Exceptions;
 
 namespace Craftsmen.Domain.Models;
 
@@ -16,6 +18,6 @@ public class Tag : Entity<int>
 
     private void Validate(string name)
     {
-        throw new NotImplementedException();
+        Guard.ForStringLength<InvalidTagException>(name, 2, 10, nameof(this.Name));
     }
 }
