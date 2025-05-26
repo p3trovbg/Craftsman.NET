@@ -8,10 +8,13 @@ public abstract class Entity<TId> : IEntity
 
     protected Entity()
     {
+        this.AuditInfo = new AuditInfo();
         this.events = new List<IDomainEvent>();
     }
     
     public TId Id { get; private set; } = default!;
+
+    public AuditInfo AuditInfo { get; private set; }
 
     public IReadOnlyCollection<IDomainEvent> Events
         => this.events.ToList().AsReadOnly();
