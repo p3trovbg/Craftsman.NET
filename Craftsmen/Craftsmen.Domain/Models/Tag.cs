@@ -1,8 +1,8 @@
-﻿using Common.Domain;
-using Common.Domain.Models;
-using Craftsmen.Domain.Exceptions;
+﻿namespace Craftsmen.Domain.Models;
 
-namespace Craftsmen.Domain.Models;
+using Common.Domain;
+using Common.Domain.Models;
+using Exceptions;
 
 // NOTE: Tag could be used by projects, workshops and forum. Therefore we could move in Common.Domain models.
 public class Tag : Entity<int>
