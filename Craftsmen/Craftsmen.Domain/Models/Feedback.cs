@@ -21,10 +21,35 @@ public class Feedback : Entity<int>
 
     public string WriterId { get; private set; }
 
+    public Feedback UpdateContent(string newContent)
+    {
+        this.ValidateContent(newContent);
+        this.Content = newContent;
+
+        return this;    
+    }
+
+     public Feedback UpdateRating(int newRating)
+    {
+        this.ValidateRating(newRating);
+        this.Rating = newRating;
+
+        return this;    
+    }
+
     private void Validate(string content, int rating, string writerId)
     {
-        Guard.AgainstEmptyString<InvalidFeedbackException>(content, nameof(this.Content));
-        Guard.AgainstOutOfRange<InvalidFeedbackException>(rating, 1, 10, nameof(this.Rating));
-        Guard.AgainstEmptyString<InvalidFeedbackException>(writerId, nameof(this.WriterId));
+        this.ValidateContent(content);
+        this.ValidateRating(rating);
+        this.ValidateWriterId(writerId);
     }
+
+    private void ValidateContent(string content)
+        => Guard.AgainstEmptyString<InvalidFeedbackException>(content, nameof(this.Content));
+
+    private void ValidateRating(int rating)
+        => Guard.AgainstOutOfRange<InvalidFeedbackException>(rating, 1, 10, nameof(this.Rating));
+
+    private void ValidateWriterId(string writerId)
+        => Guard.AgainstEmptyString<InvalidFeedbackException>(writerId, nameof(this.WriterId));
 }
