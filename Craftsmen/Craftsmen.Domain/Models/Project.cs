@@ -35,6 +35,12 @@ public class Project : Entity<int>
     
     public IReadOnlyCollection<Tag> Tags => this.tags.ToList().AsReadOnly();
 
+    public void AddResource(Resource resource) => this.resources.Add(resource);
+    
+    public void AddFeedback(Feedback feedback) => this.feedbacks.Add(feedback);
+
+    public void AddTag(Tag tag) => this.tags.Add(tag);
+
     private void Validate(string name, string description, int durationInWeeks)
     {
         // TODO: Use constants instead hardcoded values.
