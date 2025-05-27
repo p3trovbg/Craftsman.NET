@@ -13,5 +13,7 @@ public interface ICraftsmanFactory : IFactory<Craftsman>
 
     ICraftsmanFactory WithCategory(Category category);
 
+    ICraftsmanFactory WithFeedback(Action<FeedbackFactory> feedback);
+
     ICraftsmanFactory FromUser(string userId);
 }

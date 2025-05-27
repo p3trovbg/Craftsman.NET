@@ -9,6 +9,7 @@ public class CraftsmanFactory : ICraftsmanFactory
     private string location = default!;
     private Category category = default!;
     private string userId = default!;
+    private readonly List<Feedback> feedbacks = new List<Feedback>();
 
     public ICraftsmanFactory WithName(string name)
     {
@@ -39,5 +40,21 @@ public class CraftsmanFactory : ICraftsmanFactory
         return this;
     }
 
-    public Craftsman Build() => new Craftsman(name, description, userId, location, category);
+    public ICraftsmanFactory WithFeedback(Action<FeedbackFactory> feedback)
+    {
+        var factory = new FeedbackFactory();
+        feedback(factory);
+        this.feedbacks.Add(factory.Build());
+
+        return this;
+    }
+
+    public Craftsman Build()
+    {
+        var craftsman = new Craftsman(name, description, userId, location, category);
+
+        feedbacks.ForEach(craftsman.AddFeedback);
+
+        return craftsman;
+    }
 }
