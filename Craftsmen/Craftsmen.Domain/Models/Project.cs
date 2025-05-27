@@ -1,6 +1,8 @@
-﻿using Common.Domain.Models;
+﻿namespace Craftsmen.Domain.Models;
 
-namespace Craftsmen.Domain.Models;
+using Common.Domain;
+using Common.Domain.Models;
+using Exceptions;
 
 public class Project : Entity<int>
 {
@@ -35,7 +37,18 @@ public class Project : Entity<int>
 
     private void Validate(string name, string description, int durationInWeeks)
     {
-        throw new NotImplementedException();
+        // TODO: Use constants instead hardcoded values.
+        this.ValidateName(name);
+        this.ValidateDescription(description);
+        this.ValidateDurationInWeeks(durationInWeeks);
     }
 
+    private void ValidateName(string name)
+        => Guard.ForStringLength<InvalidProjectException>(name, 3, 150, nameof(this.Name));
+
+    private void ValidateDescription(string description)
+        => Guard.ForStringLength<InvalidProjectException>(description, 2, 5000, nameof(this.Description));
+
+    private void ValidateDurationInWeeks(int durationInWeeks)
+        => Guard.AgainstOutOfRange<InvalidProjectException>(durationInWeeks, 1, 36, nameof(this.DurationInWeeks));
 }
