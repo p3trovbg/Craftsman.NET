@@ -1,3 +1,5 @@
+namespace Craftsmen.Domain.Factories.InnerFactories;
+
 using Craftsmen.Domain.Models;
 
 public class FeedbackFactory
@@ -24,8 +26,6 @@ public class FeedbackFactory
         return this;
     }
 
-    internal Feedback Build()
-    {
-        return new Feedback(this.content, this.rating, this.writerId);
-    }
+    internal Feedback Build() => new Feedback(this.content, this.rating, this.writerId);
+    
 }
