@@ -1,8 +1,9 @@
-﻿using Common.Domain.Contracts;
+﻿namespace Craftsmen.Domain.Factories;
 
-using Craftsmen.Domain.Models;
+using Common.Domain.Contracts;
+using Models;
+using InnerFactories;
 
-namespace Craftsmen.Domain.Factories;
 public interface ICraftsmanFactory : IFactory<Craftsman>
 {
     ICraftsmanFactory WithName(string name);
@@ -11,9 +12,11 @@ public interface ICraftsmanFactory : IFactory<Craftsman>
 
     ICraftsmanFactory WithLocation(string location);
 
-    ICraftsmanFactory WithCategory(Category category);
+    ICraftsmanFactory WithCategory(Action<CategoryFactory> category);
 
     ICraftsmanFactory WithFeedback(Action<FeedbackFactory> feedback);
+
+    ICraftsmanFactory WithProject(Action<ProjectFactory> project);
 
     ICraftsmanFactory FromUser(string userId);
 }

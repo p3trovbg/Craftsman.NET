@@ -1,6 +1,8 @@
 ﻿namespace Craftsmen.Domain.Factories;
 
+using Common.Domain.Models;
 using Models;
+using InnerFactories;
 
 public class CraftsmanFactory : ICraftsmanFactory
 {
@@ -10,6 +12,8 @@ public class CraftsmanFactory : ICraftsmanFactory
     private Category category = default!;
     private string userId = default!;
     private readonly List<Feedback> feedbacks = new List<Feedback>();
+    private readonly List<Project> projects = new List<Project>();
+    private readonly List<Resource> resources = new List<Resource>();
 
     public ICraftsmanFactory WithName(string name)
     {
@@ -28,9 +32,12 @@ public class CraftsmanFactory : ICraftsmanFactory
         return this;
     }
 
-    public ICraftsmanFactory WithCategory(Category category)
+    public ICraftsmanFactory WithCategory(Action<CategoryFactory> category)
     {
-        this.category = category;
+        var categoryFactory = new CategoryFactory();
+        category(categoryFactory);
+        this.category = categoryFactory.Build();
+
         return this;
     }
 
@@ -42,18 +49,31 @@ public class CraftsmanFactory : ICraftsmanFactory
 
     public ICraftsmanFactory WithFeedback(Action<FeedbackFactory> feedback)
     {
-        var factory = new FeedbackFactory();
-        feedback(factory);
-        this.feedbacks.Add(factory.Build());
+        var feedbackFactory = new FeedbackFactory();
+        feedback(feedbackFactory);
+        this.feedbacks.Add(feedbackFactory.Build());
 
         return this;
     }
+
+    public ICraftsmanFactory WithProject(Action<ProjectFactory> project)
+    {
+        var projectFactory = new ProjectFactory();
+        project(projectFactory);
+        this.projects.Add(projectFactory.Build());
+
+        return this;
+    }
+
+    // TODO: Add resources
 
     public Craftsman Build()
     {
         var craftsman = new Craftsman(name, description, userId, location, category);
 
         feedbacks.ForEach(craftsman.AddFeedback);
+        projects.ForEach(craftsman.AddProject);
+        resources.ForEach(craftsman.AddResource);
 
         return craftsman;
     }
