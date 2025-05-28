@@ -16,6 +16,14 @@ public class Tag : Entity<int>
 
     public string Name { get; private set; }
 
+    public Tag UpdateName(string name)
+    {
+        this.Validate(name);
+        this.Name = name;
+
+        return this;
+    }
+
     private void Validate(string name)
     {
         Guard.ForStringLength<InvalidTagException>(name, 2, 10, nameof(this.Name));
