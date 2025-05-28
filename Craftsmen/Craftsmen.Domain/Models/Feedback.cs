@@ -26,15 +26,15 @@ public class Feedback : Entity<int>
         this.ValidateContent(newContent);
         this.Content = newContent;
 
-        return this;    
+        return this;
     }
 
-     public Feedback UpdateRating(int newRating)
+    public Feedback UpdateRating(int newRating)
     {
         this.ValidateRating(newRating);
         this.Rating = newRating;
 
-        return this;    
+        return this;
     }
 
     private void Validate(string content, int rating, string writerId)
