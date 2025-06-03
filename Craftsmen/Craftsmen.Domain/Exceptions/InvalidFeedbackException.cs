@@ -1,6 +1,6 @@
-﻿using Common.Domain;
+﻿namespace Craftsmen.Domain.Exceptions;
 
-namespace Craftsmen.Domain.Exceptions;
+using Common.Domain;
 
 internal class InvalidFeedbackException : BaseDomainException
 {
@@ -8,5 +8,5 @@ internal class InvalidFeedbackException : BaseDomainException
     {
     }
 
-    public InvalidFeedbackException(string messageError) => base.Error = messageError
+    public InvalidFeedbackException(string messageError) => base.Error = messageError;
 }
