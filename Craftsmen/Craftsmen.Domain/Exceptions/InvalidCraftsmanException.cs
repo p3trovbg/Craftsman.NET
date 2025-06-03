@@ -1,6 +1,6 @@
-﻿using Common.Domain;
+﻿namespace Craftsmen.Domain.Exceptions;
 
-namespace Craftsmen.Domain.Exceptions;
+using Common.Domain;
 
 internal class InvalidCraftsmanException : BaseDomainException
 {
@@ -9,5 +9,4 @@ internal class InvalidCraftsmanException : BaseDomainException
     }
 
     public InvalidCraftsmanException(string messageError) => base.Error = messageError;
-}
 }
