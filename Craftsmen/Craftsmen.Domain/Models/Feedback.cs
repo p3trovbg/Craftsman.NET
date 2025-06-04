@@ -3,6 +3,7 @@
 using Common.Domain;
 using Common.Domain.Models;
 using Exceptions;
+using static Common.Domain.Constants.Feedback;
 
 public class Feedback : Entity<int>
 {
@@ -48,7 +49,7 @@ public class Feedback : Entity<int>
         => Guard.AgainstEmptyString<InvalidFeedbackException>(content, nameof(this.Content));
 
     private void ValidateRating(int rating)
-        => Guard.AgainstOutOfRange<InvalidFeedbackException>(rating, 1, 10, nameof(this.Rating));
+        => Guard.AgainstOutOfRange<InvalidFeedbackException>(rating, RatingMin, RatingMax, nameof(this.Rating));
 
     private void ValidateWriterId(string writerId)
         => Guard.AgainstEmptyString<InvalidFeedbackException>(writerId, nameof(this.WriterId));

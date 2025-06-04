@@ -4,6 +4,8 @@ using Common.Domain;
 using Common.Domain.Models;
 using Exceptions;
 
+using static Common.Domain.Constants.Category;
+
 public class Category : Entity<int>
 {
     internal Category(string name, string? description)
@@ -40,14 +42,22 @@ public class Category : Entity<int>
         this.ValidateDescription(description);
     }
 
-    private void ValidateName(string name) 
-        => Guard.ForStringLength<InvalidCategoryException>(name, 3, 40, nameof(this.Name));
+    private void ValidateName(string name)
+        => Guard.ForStringLength<InvalidCategoryException>(
+            name,
+            NameMinLength,
+            NameMaxLength,
+            nameof(this.Name));
 
     private void ValidateDescription(string? description)
     {
         if (!string.IsNullOrWhiteSpace(description))
         {
-            Guard.ForStringLength<InvalidCategoryException>(description, 5, 200, nameof(this.Description));
+            Guard.ForStringLength<InvalidCategoryException>(
+                description,
+                DescriptionMinLength,
+                DescriptionMaxLength,
+                nameof(this.Description));
         }
     }
 }

@@ -5,6 +5,8 @@ using Common.Domain.Contracts;
 using Common.Domain.Models;
 using Exceptions;
 
+using static Common.Domain.Constants.Craftsman;
+
 public class Craftsman : Entity<int>, IAggregateRoot
 {
     private readonly ICollection<Project> projects;
@@ -100,14 +102,14 @@ public class Craftsman : Entity<int>, IAggregateRoot
     }
 
     private void ValidateName(string name)
-        => Guard.ForStringLength<InvalidCraftsmanException>(name, 3, 150, nameof(this.Name));
+        => Guard.ForStringLength<InvalidCraftsmanException>(name, NameMinLength, NameMaxLength, nameof(this.Name));
 
     private void ValidateDescription(string description)
-        => Guard.ForStringLength<InvalidCraftsmanException>(description, 3, 1000, nameof(this.Description));
+        => Guard.ForStringLength<InvalidCraftsmanException>(description, DescriptionMinLength, DescriptionMaxLength, nameof(this.Description));
 
     private void ValidateUserId(string userId)
         => Guard.AgainstEmptyString<InvalidCraftsmanException>(userId, nameof(this.UserId));
 
     private void ValidateLocation(string location)
-        => Guard.ForStringLength<InvalidCraftsmanException>(location, 4, 100, nameof(this.Location));
+        => Guard.ForStringLength<InvalidCraftsmanException>(location, LocationMinLength, LocationMaxLength, nameof(this.Location));
 }

@@ -4,6 +4,8 @@ using Common.Domain;
 using Common.Domain.Models;
 using Exceptions;
 
+using static Common.Domain.Constants.Tag;
+
 // NOTE: Tag could be used by projects, workshops and forum. Therefore we could move in Common.Domain models.
 public class Tag : Entity<int>
 {
@@ -26,6 +28,6 @@ public class Tag : Entity<int>
 
     private void Validate(string name)
     {
-        Guard.ForStringLength<InvalidTagException>(name, 2, 10, nameof(this.Name));
+        Guard.ForStringLength<InvalidTagException>(name, NameMinLength, NameMaxLength, nameof(this.Name));
     }
 }

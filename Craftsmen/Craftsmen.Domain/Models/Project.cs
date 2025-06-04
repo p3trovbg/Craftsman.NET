@@ -4,6 +4,8 @@ using Common.Domain;
 using Common.Domain.Models;
 using Exceptions;
 
+using static Common.Domain.Constants.Project;
+
 public class Project : Entity<int>
 {
     private readonly ICollection<Resource> resources;
@@ -43,18 +45,17 @@ public class Project : Entity<int>
 
     private void Validate(string name, string description, int durationInWeeks)
     {
-        // TODO: Use constants instead hardcoded values.
         this.ValidateName(name);
         this.ValidateDescription(description);
         this.ValidateDurationInWeeks(durationInWeeks);
     }
 
     private void ValidateName(string name)
-        => Guard.ForStringLength<InvalidProjectException>(name, 3, 150, nameof(this.Name));
+        => Guard.ForStringLength<InvalidProjectException>(name, NameMinLength, NameMaxLength, nameof(this.Name));
 
     private void ValidateDescription(string description)
-        => Guard.ForStringLength<InvalidProjectException>(description, 2, 5000, nameof(this.Description));
+        => Guard.ForStringLength<InvalidProjectException>(description, DescriptionMinLength, DescriptionMaxLength, nameof(this.Description));
 
     private void ValidateDurationInWeeks(int durationInWeeks)
-        => Guard.AgainstOutOfRange<InvalidProjectException>(durationInWeeks, 1, 36, nameof(this.DurationInWeeks));
+        => Guard.AgainstOutOfRange<InvalidProjectException>(durationInWeeks, DurationMinWeeks, DurationMaxWeeks, nameof(this.DurationInWeeks));
 }

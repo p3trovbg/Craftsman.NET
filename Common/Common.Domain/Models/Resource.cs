@@ -4,7 +4,6 @@ using static Common.Domain.Constants.Resources;
 
 namespace Common.Domain.Models;
 
-// TODO: use constants for erros and constraints,
 public class Resource : Entity<Guid>
 {
     internal Resource(
@@ -50,16 +49,16 @@ public class Resource : Entity<Guid>
     {
         if ((content == null || content.Length == 0) && string.IsNullOrWhiteSpace(path))
         {
-            throw new InvalidResourceException("Either resource content or a path must be provided.");
+            throw new InvalidResourceException(ErrorContentOrPathRequired);
         }
-        
+
         if (content is { Length: > 0 } && !string.IsNullOrWhiteSpace(path))
         {
-            throw new InvalidResourceException("Resource cannot have both content and a path specified.");
+            throw new InvalidResourceException(ErrorBothContentAndPath);
         }
-        
+
         Guard.ForStringLength<InvalidResourceException>(name, MinNameLength, MaxNameLength, nameof(this.Name));
-        
+
         if (!string.IsNullOrWhiteSpace(description))
         {
             Guard.ForStringLength<InvalidResourceException>(description, MinDescriptionLength, MaxDescriptionLength, nameof(this.Description));
@@ -69,17 +68,17 @@ public class Resource : Entity<Guid>
         {
             Guard.ForStringLength<InvalidResourceException>(path!, MinSizeInBytes, MaxSizeInBytes, nameof(this.Path));
         }
-        
+
         if (content == null && !string.IsNullOrWhiteSpace(path))
         {
             if (path.Contains("..") || path.StartsWith("/") || path.Contains("//"))
             {
-                throw new InvalidResourceException("Resource path contains invalid characters or is not a valid relative path.");
+                throw new InvalidResourceException(ErrorInvalidPathCharacters);
             }
-            
+
             if (!Uri.IsWellFormedUriString(path, UriKind.RelativeOrAbsolute))
             {
-                throw new InvalidResourceException("Resource path is not a valid URI.");
+                throw new InvalidResourceException(ErrorInvalidPathUri);
             }
         }
 
@@ -91,7 +90,7 @@ public class Resource : Entity<Guid>
 
             if (!isValidFormat)
             {
-                throw new InvalidResourceException($"The resource type {type} does not support {extensionType} extension.");
+                throw new InvalidResourceException(string.Format(ErrorUnsupportedExtension, type, extensionType));
             }
         }
         else if (type.Equals(ResourceType.Video))
@@ -100,7 +99,7 @@ public class Resource : Entity<Guid>
 
             if (!isValidFormat)
             {
-                throw new InvalidResourceException($"The resource type {type} does not support {extensionType} extension.");
+                throw new InvalidResourceException(string.Format(ErrorUnsupportedExtension, type, extensionType));
             }
         }
         else if (type.Equals(ResourceType.Document))
@@ -110,7 +109,7 @@ public class Resource : Entity<Guid>
 
             if (!isValidFormat)
             {
-                throw new InvalidResourceException($"The resource type {type} does not support {extensionType} extension.");
+                throw new InvalidResourceException(string.Format(ErrorUnsupportedExtension, type, extensionType));
             }
         }
     }
